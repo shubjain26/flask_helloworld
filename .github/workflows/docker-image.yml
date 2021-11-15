@@ -13,6 +13,13 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag flask_hello_world:$(date +%s)
+    - uses: docker/build-push-action@v2
+    - name: Build and Push the Docker image
+      id: docker_build
+      with:
+          push: true
+          tags: user/app:latest
+          secrets: |
+            GIT_AUTH_TOKEN=${{ secrets.DOCKERHUB_SECRET }}
+
+#       run: docker build . --file Dockerfile --tag flask_hello_world:$(date +%s)
